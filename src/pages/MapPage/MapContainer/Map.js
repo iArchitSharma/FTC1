@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useRef} from "react";
+import React, {useState, useCallback, useRef, useEffect} from "react";
 import { BallBeat } from 'react-pure-loaders';
 import { formatRelative } from "date-fns";
 import {LoadingAnimation, LoadingContainer, AddTrashCan, MapStyle} from "./styles.js"
@@ -20,7 +20,9 @@ const mapOptions = {
   zoomControl: true,
 };
 
-let userAlerted = false
+let userAlerted = 0
+
+let LocationCenter = null
 
 export default function Map() {
   const {isLoaded} = useLoadScript({ googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY, libraries: ["places"]})
@@ -47,6 +49,16 @@ export default function Map() {
       mapRef.current.setZoom(16)
   }, [])
 
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        LocationCenter = {
+          lat: pos.coords.latitude,
+          lng: pos.coords.longitude
+        }
+      }
+    )
+  }, [])
 
   if(!isLoaded) return (
     <LoadingContainer>
@@ -56,23 +68,24 @@ export default function Map() {
     </LoadingContainer>
   ) 
 
-  if(alert) {
-    return (
-      <Alert message = "Now, you could click anywhere on the map twice and place a trash can for reference. If you wish disable this, click 'STOP' button for double tap zoom "
-      onBackdropClickHandler = {() => setAlert(false)}
-      />
-    )
-  }
-
   return (
     <MapStyle>
+
+      {(alert && (userAlerted < 2)) && 
+        <Alert message = "Now, you could click anywhere on the map twice and place a trash can for reference. If you wish to disable this, click 'STOP' button for double tap zoom "
+        onBackdropClickHandler = {() => setAlert(false)}
+        />
+      }
 
       <Locate panTo={panTo} />
       <Search panTo={panTo} />
 
       <AddTrashCan onClick = {() => {
         setCanAddLocation(!canAddLocation) 
-        setAlert(true)
+        if(!canAddLocation) {
+          setAlert(true)
+          userAlerted++
+        }
       } } >
         {canAddLocation ?
           <div> <i class="fas fa-minus-circle"></i> &nbsp; Stop </div> :
@@ -103,10 +116,21 @@ export default function Map() {
                 url: `/bear.svg`,
                 origin: new window.google.maps.Point(0, 0),
                 anchor: new window.google.maps.Point(15, 15),
-                scaledSize: new window.google.maps.Size(30, 30),
+                scaledSize: new window.google.maps.Size(30, 30)
               }}
             />
         ))}
+        {/* <InfoWindow position = {mapCenter}>
+          <img src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcD0BOSqFd2L7SDszSkFuRydCJdVd0ARumtAlIGl1QbhpRHOchESIzOwUKeGBo45c8EzM&usqp=CAU" width = "35px" height = "35px" />
+        </InfoWindow> */}
+
+        <Marker position = {LocationCenter} icon = {{url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcD0BOSqFd2L7SDszSkFuRydCJdVd0ARumtAlIGl1QbhpRHOchESIzOwUKeGBo45c8EzM&usqp=CAU", 
+          origin: new window.google.maps.Point(0, 0),
+          anchor: new window.google.maps.Point(15, 15),
+          scaledSize: new window.google.maps.Size(30, 30)
+        }}>
+        </Marker>
+
 
         {selected ? (
           <InfoWindow
@@ -117,7 +141,7 @@ export default function Map() {
           >
             <div>
               <h2>
-                Trash Placed <img src = "https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/garbage_can.png" width = "25px" height = "25px" />
+                Trash Can Placed <img src = "https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/garbage_can.png" width = "25px" height = "25px" />
               </h2>
               <p> {formatRelative(selected.time, new Date())}</p>
             </div>
