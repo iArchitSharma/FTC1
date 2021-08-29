@@ -72,7 +72,7 @@ export default function Map() {
     <MapStyle>
 
       {(alert && (userAlerted < 2)) && 
-        <Alert message = "Now, you could click anywhere on the map twice and place a trash can for reference. If you wish to disable this, click 'STOP' button for double tap zoom "
+        <Alert message = "Now, you could click anywhere on the map and place a trash can for reference. If you wish to disable this, click 'STOP' button for double tap zoom "
         onBackdropClickHandler = {() => setAlert(false)}
         />
       }
@@ -113,16 +113,13 @@ export default function Map() {
                 setSelected(mark);
               }}
               icon={{
-                url: `/bear.svg`,
+                url: `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAaVBMVEX///8AAADt7e2NjY2enp5ISEjQ0NDCwsL8/Pzc3NxmZmYvLy+Dg4NYWFiSkpLf3985OTl9fX309PTl5eUkJCSlpaXJyclCQkKurq5eXl6+vr5sbGx4eHjW1taysrIaGhpOTk4SEhILCwtNzewDAAAEMElEQVR4nO2d2VriQBBGCSCbgBFFkVXn/R9ydEYcUhUIXUuqHf9z21+SOlk7lU5XpwMAAAAAAAD4xqzvyyKBx8myGx1yCt37FLsjr8PouK9lJPL7oBxHx34VT1K/D3rR0V9BTyP4fhgX0QJNTHSC72R+x9moBYsi66PYNxAsbqMtLjC2ECyKabTHeZIe8hd4iBY5h+o5ccok2uQcr1aGud5PH8wEi3m0Sz1TO8Mi2qUeQ8FiHS1Tx8rS8Dnapo5bFubTtYsutmzZO89QZQxYkClPNdad3boFKobFOEtZesf2z8grUCld+Tn6B3aOL50CFTOnEb6lLc/uUwefOOWwQ5h4DEbKc8Cdtfo6YsmdpOvYn2caX/K98I7to6w6pzy89KwZ20lZZaXYE1vQJ+Enun2cYvhtQtKvZCvZmwcqZmmy+1kesrSOU84bjU30fsc7DTvrQKXw7IXsNjijq9kYByqGRSbMswzZnsokdcrPLukHlgNdUd80UMruhUXuzS/pgqWkn26WGmwHwSUbHXIqg1RBw9RgOyQ/oHhPM3NgCMP8gSEM8weGP9Dw2/Xa0vMmJgNH2kMyRIUnXzJmIvuQ0z2BXZeLbqss6Df0+WkAFh+qFtTQYJ1J0Eyc+es/S1VYb6AJGKqBoTswVANDd2CoBobuwFANDN2BoRoYugNDNTB0B4ZqYOhODobLyeyTSb8ugbnffLXP6wY7DbfH9pcp/5Mh3nD0WGnmCtU/27hC9QdbNso73pAMomVD28h3EPadgQ5qo+3xhk3tN6SdDl+kw4zpCKD8DOmVSH8ZoaP76D83dAoJGKqBIQxhCEMY6oEhDGEIQxjqgSEMYQhDGOqBIQxhCEMY6oEhDGEIQxjqgSEMYQhDGOqBIQxhCEMY6oEhDGEIQxjqgSEMYQhDGOqBIQxhCEMY6oEhDGEIQxjqgSEMYQjDDAzfGtppwWc6pwKtDpjfnAokAlYdcF9tv6HttFJrw/ojZm+pTHxR8ulbqnOX8LlPqnU+WcmoDAw7w970k17tFPCDr/ZpbVW88fyrfcl3UA6GvsBQDQzdgaEaGLoDQzUwdAeGamDoDgzV/P+G4dWQaJZDUgH4Isyw7YLStP6yeWn5ETVMrr+rhNZ7prk4PdRQVCBeDqtPLK39fR46w+rBfAsXmVNDi1JrVeiVzmf6dYVu3WEHr+g2SvttnIeVKhRUGm+Cl+30LV5fgVcJXzlshW2k6O8G7VBTyZ5+FLCAllgM5dlBsDOOtjrF4yTtdMporRNcBDvraK1/eHU36EfOOOwf93/ZRYsd8bkKP9g0b7wNXG6kn9AOfgwez8IjvG8RgP170ym0CkUA3p3FfXMIvvScBcOPYhvd/YfH5jjcaOmltN8ciQ8bryc9YzQ/BPhteX0hT+5W05eb1pht+23n9gAAAAAAAAAAAADa5TfIkmD0BW4uvwAAAABJRU5ErkJggg==`,
                 origin: new window.google.maps.Point(0, 0),
                 anchor: new window.google.maps.Point(15, 15),
                 scaledSize: new window.google.maps.Size(30, 30)
               }}
             />
         ))}
-        {/* <InfoWindow position = {mapCenter}>
-          <img src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcD0BOSqFd2L7SDszSkFuRydCJdVd0ARumtAlIGl1QbhpRHOchESIzOwUKeGBo45c8EzM&usqp=CAU" width = "35px" height = "35px" />
-        </InfoWindow> */}
 
         <Marker position = {LocationCenter} icon = {{url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcD0BOSqFd2L7SDszSkFuRydCJdVd0ARumtAlIGl1QbhpRHOchESIzOwUKeGBo45c8EzM&usqp=CAU", 
           origin: new window.google.maps.Point(0, 0),
